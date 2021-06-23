@@ -4,6 +4,8 @@ const fs = require("fs");
 const readline = require("readline");
 const clearScreen = () => write("\x1Bc");
 const db = require("./db.json");
+const getBTCRate = require("./btc-rate.js");
+const { get } = require("http");
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -20,7 +22,7 @@ const inputEmailError =
 const inputPasswordQuestion =
   "Введіть пароль, використовуючи літери та цифри  ";
 const inputPasswordError =
-  "пароль не вірний. Перевірте правильність вводу даних";
+  "Пароль не вірний. Перевірте правильність вводу даних";
 const userError =
   "Такого користувача не знайдено.\nПеревірте правильність даних або зареєструйтеся";
 const userExists =
@@ -38,6 +40,9 @@ const findUser = (inputEmail, inputPassword) => {
   } else {
     if (user.password !== inputPassword) {
       console.log(inputPasswordError);
+      rl.close();
+    } else {
+      getBTCRate();
       rl.close();
     }
   }
