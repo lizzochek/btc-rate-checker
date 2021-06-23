@@ -1,5 +1,6 @@
 "use strict";
 
+const fs = require("fs");
 const readline = require("readline");
 const clearScreen = () => write("\x1Bc");
 const db = require("./db.json");
@@ -10,34 +11,54 @@ const rl = readline.createInterface({
 });
 const write = (s) => rl.output.write(s);
 
-let mail;
-let password;
+let inputEmail;
+let inputPassword;
 
-const mailQuestion = "Введіть пошту у форматі hello@gmail.com";
-const mailError =
+const inputEmailQuestion = "Введіть пошту у форматі hello@ginputEmail.com";
+const inputEmailError =
   "Будь ласка спробуйте ще раз і введіть пошту у правильному форматі";
-const passwordQuestion = "Введіть пароль, використовуючи літери та цифри";
-const passwordError = "Не вірний пароль";
+const inputPasswordQuestion = "Введіть пароль, використовуючи літери та цифри";
+const inputPasswordError = "Не вірний пароль";
+const userError =
+  "Такого користувача не знайдено.\nПеревірте правильність даних або зареєструйтеся";
 
-const login = () => {
+const findUser = (inputEmail, inputPassword) => {
+  let user = db.find((user) => user.email === inputEmail);
+  if (!user) {
+    console.log(userError);
+    rl.close();
+  } else {
+  }
+};
+
+const addUser = (inputEmail, inputPassword) => {
+  db.push({
+    email: inputEmail,
+    password: inputPassword,
+  });
+  console.log(db);
+  fs.writeFileSync("./db.json", JSON.stringify(db));
+};
+
+const loginInput = (callback) => {
   clearScreen();
-  rl.question(mailQuestion, (answer) => {
+  rl.question(inputEmailQuestion, (answer) => {
     if (answer.includes("@")) {
-      mail = answer;
+      inputEmail = answer;
       clearScreen();
-      rl.question(passwordQuestion, (answer) => {
-        password = answer;
+      rl.question(inputPasswordQuestion, (answer) => {
+        inputPassword = answer;
         clearScreen();
+        callback(inputEmail, inputPassword);
       });
     } else {
-      console.log(mailError);
+      console.log(inputEmailError);
       rl.close();
     }
   });
 };
 
-// rl.question("Вже зареєстровані? ", (answer) => {
-//   if (answer.toLowerCase() === "так") login();
-//   if (answer.toLowerCase() === "ні") login();
-// });
-console.log(db);
+rl.question("Вже зареєстровані? ", (answer) => {
+  if (answer.toLowerCase() === "так") loginInput(findUser);
+  if (answer.toLowerCase() === "ні") loginInput(addUser);
+});
