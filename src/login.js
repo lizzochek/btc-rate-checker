@@ -81,7 +81,7 @@ const addUser = (inputEmail, inputPassword) => {
 
 //Deleting user from db
 const deleteUser = (userIndex) => {
-  delete db[userIndex];
+  db.splice(userIndex, 1);
   fs.writeFileSync("./db.json", JSON.stringify(db));
 
   console.log(userDeleted);
