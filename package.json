@@ -1,0 +1,22 @@
+{
+  "name": "btc-rate-checker",
+  "version": "1.0.0",
+  "description": "A program which allows registered users to see current BTC rate",
+  "main": "login.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lizzochek/btc_course_checker.git"
+  },
+  "author": "Dolhova Yelyzaveta",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lizzochek/btc_course_checker/issues"
+  },
+  "homepage": "https://github.com/lizzochek/btc_course_checker#readme",
+  "dependencies": {
+    "request": "^2.88.2"
+  }
+}
